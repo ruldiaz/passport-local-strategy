@@ -2,6 +2,7 @@ const {v4:uuidv4} = require('uuid');
 const validate = require('validate.js');
 const constraints = require('../lib/constraints');
 const bcrypt = require('bcrypt');
+const DB = require('../lib/db');
 
 let _ = class User{
    constructor(){
@@ -20,7 +21,8 @@ let _ = class User{
 
    // save the user to the database
    save(){
-      console.log(`Succesfully saved user ${this.id} to the database`);
+      //console.log(`Succesfully saved user ${this.id} to the database`);
+      DB.write({data: 'Hello World'});
    }
 
    // find user with id
