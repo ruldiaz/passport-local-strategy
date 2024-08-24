@@ -4,6 +4,7 @@ let _ = class DB {
    static write(data){
       
       if(data){
+         console.log(`Writing to DB: ${JSON.stringify(data)}`);
          this.localStorage.push(data);
          return data;
       }
@@ -30,10 +31,14 @@ let _ = class DB {
                user = record;
             }
          }
+         console.log({user});
+         
          return user;
       }
-      return false;
    }
+   
+
+
 };
 
 module.exports = _;

@@ -7,7 +7,7 @@ const passport = require('passport');
 router.post('/register', async (req, res)=>{
    try {
       const {firstName, lastName, email, password} = req.body;
-      let user = new  User();
+      let user = new User();
       let msg = false;
 
       msg = user.setFirstName(firstName);
@@ -54,6 +54,8 @@ router.post('/register', async (req, res)=>{
          })
       }
       // save the user to db
+      console.log(user);
+      
       user.save();
       res.status(200).json(user);
       
@@ -81,7 +83,7 @@ router.post('/login', (req, res, next)=>{
    
    passport.authenticate('local', (err, user)=>{
       console.log(`3. Passport Authenticate cb: ${JSON.stringify(user)}`);
-   
+      
       if(err){
 
       }
@@ -91,13 +93,17 @@ router.post('/login', (req, res, next)=>{
       }
 
       req.logIn(user, (err)=>{
+         
          if(err){
             return next(err)
          }
+
          res.status(200).json({
             redirectTo: '/profile'
          })
+            
       })
+      
    })(req, res, next)
 });
 

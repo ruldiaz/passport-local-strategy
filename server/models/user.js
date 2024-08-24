@@ -22,7 +22,17 @@ let _ = class User{
    // save the user to the database
    save(){
       //console.log(`Succesfully saved user ${this.id} to the database`);
-      DB.write({data: 'Hello World'});
+      //DB.write({data: 'Hello World'});
+      const user = {
+         id: this.id,
+         created: this.created,
+         name: this.name,
+         email: this.email,
+         security: this.security,
+         banned: this.banned
+      };
+      console.log(`Saving user: ${JSON.stringify(user)}`);
+      DB.write(user);  // Save the actual user data
    }
 
    // find user with id

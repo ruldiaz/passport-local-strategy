@@ -6,6 +6,7 @@ const router = require('./lib/router');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const cookieSession = require('cookie-session');
+const DB = require('./lib/db');
 
 const PORT = process.env.PORT || 3000;
 
@@ -29,6 +30,14 @@ passport.use('local', new LocalStrategy({passReqToCallback: true},
    (req, username, password, done)=>{
       console.log(`2. Local Strategy verify cb: ${JSON.stringify(username)}`);
       // this is where we call db to verify the user
+      let user = DB.findByEmail(username);
+      if(!user){
+         console.log('User not found');
+         
+         return done(null, false);
+      }
+      console.log(`User from db: ${JSON.stringify(user)}`);
+      
       return done(null, {id: "test"})
    },
 ));
