@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const passport = require('passport');
 
 // register new user
 router.post('/register', async (req, res)=>{
@@ -62,6 +63,7 @@ router.post('/register', async (req, res)=>{
 })
 
 // login
+/*
 router.post('/login', async (req, res)=>{
    try {
       res.status(200).json({
@@ -72,6 +74,32 @@ router.post('/login', async (req, res)=>{
       throw new Error(error);
    }
 })
+*/
+
+router.post('/login', (req, res, next)=>{
+   console.log(`1. Login handler: ${JSON.stringify(req.body)}`);
+   
+   passport.authenticate('local', (err, user)=>{
+      console.log(`3. Passport Authenticate cb: ${JSON.stringify(user)}`);
+   
+      if(err){
+
+      }
+
+      if(!user){
+
+      }
+
+      req.logIn(user, (err)=>{
+         if(err){
+            return next(err)
+         }
+         res.status(200).json({
+            redirectTo: '/profile'
+         })
+      })
+   })(req, res, next)
+});
 
 // logout
 router.post('/logout', async (req, res)=>{
