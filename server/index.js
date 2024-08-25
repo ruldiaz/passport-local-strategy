@@ -7,6 +7,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const cookieSession = require('cookie-session');
 const DB = require('./lib/db');
+const bcrypt = require('bcrypt');
 
 const PORT = process.env.PORT || 3000;
 
@@ -27,7 +28,7 @@ passport.serializeUser((user, done)=>{
 });
 
 passport.use('local', new LocalStrategy({passReqToCallback: true},
-   (req, username, password, done)=>{
+   async (req, username, password, done)=>{
       console.log(`2. Local Strategy verify cb: ${JSON.stringify(username)}`);
       // this is where we call db to verify the user
       let user = DB.findByEmail(username);
@@ -37,8 +38,20 @@ passport.use('local', new LocalStrategy({passReqToCallback: true},
          return done(null, false);
       }
       console.log(`User from db: ${JSON.stringify(user)}`);
+      // compare incoming password to store password
+      // using bcrypt
+
+      const result = await new Promise((resolve, reject)=>{
+         bcrypt.compare(password, user.security.passwordHash, (err, res)=>{
+            if(err) reject(err);
+            resolve(res);
+         });
+      });
+
+      console.log(`result: ${result}`);
       
-      return done(null, {id: "test"})
+      
+      //return done(null, {id: "test"})
    },
 ));
 
