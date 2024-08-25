@@ -2,7 +2,7 @@ let _ = class DB {
    static localStorage = [];
 
    static write(data){
-      
+      // if there is data then write db
       if(data){
          console.log(`Writing to DB: ${JSON.stringify(data)}`);
          this.localStorage.push(data);
