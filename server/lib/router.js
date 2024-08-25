@@ -48,7 +48,7 @@ router.post('/register', async (req, res)=>{
          return res.status(400).json({
             error: {
                code: 400,
-               type: 'password',
+               type: 'Password',
                message: msg
             }
          })
