@@ -47,11 +47,12 @@ passport.use('local', new LocalStrategy({passReqToCallback: true},
             resolve(res);
          });
       });
-
-      console.log(`result: ${result}`);
+      if(result){
+         return done(null, user);
+      }else{
+         return done('Password or username is incorrect. Please try again.', null);
+      }
       
-      
-      //return done(null, {id: "test"})
    },
 ));
 
