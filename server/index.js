@@ -23,8 +23,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser((user, done)=>{
-   console.log(`4 - Serialize user: ${JSON.stringify(user)}`);
+   console.log(`4 - Serialize user: ${JSON.stringify(user.id)}`);
    return done(null, user.id);
+});
+
+passport.deserializeUser((id, done)=>{
+   console.log(`Deserializing user: ${id}`);
+   const user = DB.findOne(id);
+   if(user){
+      return done(null, {id: user, email: user.email});
+   }else{
+      return done(new Error(`No user with id is found`));
+   }
 });
 
 passport.use('local', new LocalStrategy({passReqToCallback: true},
