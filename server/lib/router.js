@@ -64,20 +64,6 @@ router.post('/register', async (req, res)=>{
    }
 })
 
-// login
-/*
-router.post('/login', async (req, res)=>{
-   try {
-      res.status(200).json({
-         timestamps: Date.now(),
-         message: 'Login success'
-      })
-   } catch (error) {
-      throw new Error(error);
-   }
-})
-*/
-
 router.post('/login', (req, res, next)=>{
    console.log(`1. Login handler: ${JSON.stringify(req.body)}`);
    
@@ -113,6 +99,29 @@ router.post('/login', (req, res, next)=>{
       })
       
    })(req, res, next)
+});
+
+// get user
+router.get('/user', async (req, res)=>{
+   try {
+      console.group('\n GET /user  - request details: \n');
+         console.log('----------------------------------');
+         console.log('req.body', req.body);
+         console.log('req.params', req.params);
+         console.log('req.headers', req.headers);
+         console.log('req.isAuthenticated', req.isAuthenticated());
+         console.log('req.user', req.user);
+         
+      console.groupEnd();
+      res.sendStatus(200);
+   } catch (error) {
+      console.error(new Error(error.message));
+      res.status(500).json({
+         timestamp: Date.now(),
+         msg: `Failed to get user, internal server error.`,
+         code: 500
+      });
+   }
 });
 
 // logout
