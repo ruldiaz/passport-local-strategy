@@ -27,12 +27,14 @@ passport.serializeUser((user, done)=>{
    return done(null, user.id);
 });
 
-passport.deserializeUser((id, done)=>{
+passport.deserializeUser(async (id, done)=>{
    console.log(`Deserializing user: ${id}`);
-   const user = DB.findOne(id);
+   const user = await DB.findOne(id);
    if(user){
+      console.log('User found during deserialization:', user);
       return done(null, {id: user, email: user.email});
    }else{
+      console.error('User not found during deserialization');
       return done(new Error(`No user with id is found`));
    }
 });
@@ -41,7 +43,7 @@ passport.use('local', new LocalStrategy({passReqToCallback: true},
    async (req, username, password, done)=>{
       console.log(`2. Local Strategy verify cb: ${JSON.stringify(username)}`);
       // this is where we call db to verify the user
-      let user = DB.findByEmail(username);
+      let user = await DB.findByEmail(username);
       if(!user){
          console.log('User not found');
          

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const passport = require('passport');
+const DB = require('./db');
 
 // register new user
 router.post('/register', async (req, res)=>{
@@ -91,7 +92,7 @@ router.post('/login', (req, res, next)=>{
          if(err){
             return next(err)
          }
-
+         console.log('User logged in:', req.user);
          res.status(200).json({
             redirectTo: '/profile'
          })
@@ -103,13 +104,10 @@ router.post('/login', (req, res, next)=>{
 
 // get user
 router.get('/user', async (req, res)=>{
-   try {
-      console.group('\n GET /user  - request details: \n');
-         console.log('----------------------------------');
-         console.log('req.isAuthenticated', req.isAuthenticated());
-         console.log('req.user', req.user);
-      console.groupEnd();
 
+   try {
+      console.log('Session ID:', req.session);
+      console.log('User in session:', req.user);
       if(!req.isAuthenticated()){
          return res.status(403).json({
             timestamp: Date.now(),
@@ -117,8 +115,26 @@ router.get('/user', async (req, res)=>{
             code: 403
          });
       }
+
+      //const user = await DB.findOne(req.user);
+      let user = await DB.findByEmail(req.user.email);
       
-      res.sendStatus(200);
+      if(!user){
+         return res.status(404).json({
+            timestamp: Date.now(),
+            msg: 'User not found',
+            code: 404
+         });
+      }
+      //console.log(user);
+      
+      res.status(200).json({
+         user: {
+            id: user.id,
+            email: user.email,
+            name: user.name
+         }
+      });
 
    } catch (error) {
       console.error(new Error(error.message));

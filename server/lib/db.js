@@ -35,6 +35,7 @@ let _ = class DB {
          
          return user;
       }
+      return false;
    }
    
 
