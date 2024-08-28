@@ -106,14 +106,20 @@ router.get('/user', async (req, res)=>{
    try {
       console.group('\n GET /user  - request details: \n');
          console.log('----------------------------------');
-         console.log('req.body', req.body);
-         console.log('req.params', req.params);
-         console.log('req.headers', req.headers);
          console.log('req.isAuthenticated', req.isAuthenticated());
          console.log('req.user', req.user);
-         
       console.groupEnd();
+
+      if(!req.isAuthenticated()){
+         return res.status(403).json({
+            timestamp: Date.now(),
+            msg: 'Access denied.',
+            code: 403
+         });
+      }
+      
       res.sendStatus(200);
+
    } catch (error) {
       console.error(new Error(error.message));
       res.status(500).json({
