@@ -11,3 +11,55 @@ body{
    align-items: center;
    color: rgba(0,0,0,0.79);
 }
+
+h1{
+   font-size: 36px;
+   font-weight: 300;
+}
+
+h2{
+   font-size: 18px;
+   font-weight: 400;
+}
+
+.auth-app-form{
+   background-color: white;
+   font-weight: 400;
+   text-align: left;
+   padding: 40px;
+   border: 1px solid rgba(0,0,0,0.16);
+   border-radius: 6px;
+   width: 360px;
+}
+
+.auth-app-form h2{
+   text-align: center;
+}
+
+.auth-app-form input{
+   width: 100%;
+   margin-bottom: 10px;
+}
+
+.auth-app-form label{
+   font-weight: 100;
+   font-size: 13px;
+}
+
+.form-button{
+   background-color: rgba(84,146,222);
+   color: white;
+   width: 150px;
+   height: 30px;
+   border: none;
+   border-radius: 6px;
+   display: block;
+   margin: 0 auto;
+}
+
+.form-toggle{
+   text-align: center;
+   margin-top: 10px;
+   font-size: 14px;
+   
+}
