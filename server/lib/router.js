@@ -102,20 +102,26 @@ router.post('/login', (req, res, next)=>{
    })(req, res, next)
 });
 
+const requireAuth = (req, res, next)=>{
+   console.log("\n Require auth middleware...");
+   console.log('Session ID:', req.session);
+   console.log('User in session:', req.user);
+   if(req.isAuthenticated()){
+      next();
+   }else{
+      return res.status(403).json({
+         timestamp: Date.now(),
+         msg: 'Access denied.',
+         code: 403
+      });
+   }
+}
+
 // get user
-router.get('/user', async (req, res)=>{
+router.get('/user', requireAuth, async (req, res)=>{
 
    try {
-      console.log('Session ID:', req.session);
-      console.log('User in session:', req.user);
-      if(!req.isAuthenticated()){
-         return res.status(403).json({
-            timestamp: Date.now(),
-            msg: 'Access denied.',
-            code: 403
-         });
-      }
-
+      
       //const user = await DB.findOne(req.user);
       let user = await DB.findByEmail(req.user.email);
       
