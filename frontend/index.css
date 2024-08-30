@@ -60,6 +60,12 @@ h2{
 .form-toggle{
    text-align: center;
    margin-top: 10px;
+   font-size: 14px;  
+}
+
+#error-message{
+   color: rgba(229, 99, 99);
    font-size: 14px;
-   
+   margin: 4px 0 12px 0px;
+   text-align: center;
 }
