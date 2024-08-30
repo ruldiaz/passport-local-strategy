@@ -8,8 +8,11 @@ const LocalStrategy = require('passport-local').Strategy;
 const cookieSession = require('cookie-session');
 const DB = require('./lib/db');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 app.use(cookieSession({
    name: 'app-auth',
