@@ -12,4 +12,27 @@ document.getElementById('register-form').addEventListener('submit', async (event
       errMsgDiv.innerHTML = 'Incomplete form. All fields are required.';
       return;
    }
+
+   try {
+      const response = await fetch('http://localhost:3000/api/register', {
+         method: 'POST',
+         headers: {
+            'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            password
+         })
+      });      
+      if(response.ok){
+
+      }else{
+         const { error } = await response.json();
+         throw new Error(error?.message[0]);
+      }
+   } catch (error) {
+      errMsgDiv.innerHTML = `Failed to register user: ${error.message ? error.message : 'Unknown error occurred.'}`;
+   }
 })
