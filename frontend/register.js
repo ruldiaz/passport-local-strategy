@@ -28,7 +28,24 @@ document.getElementById('register-form').addEventListener('submit', async (event
       });      
       if(response.ok){
          const {email, name} = await response.json();
-         window.location.href = `index.html?email=${encodeURIComponent(email)}`;
+
+         document.querySelector('.auth-app-form h2').style.display = 'none';
+         document.querySelector('.auth-app-form p').style.display = 'none';
+
+         const form = document.getElementById('register-form');
+         form.style.text = 'center';
+
+         form.innerHTML = `
+            Welcome to the Auth App, ${name.first} </br></br>
+            Your registration was succesful. </br>
+            You will now be redirected to the login page...
+         `;
+
+         setTimeout(()=>{
+            window.location.href = `index.html?email=${encodeURIComponent(email)}`;    
+         },3000);
+
+         
       }else{
          const { error } = await response.json();
          throw new Error(error?.message[0]);
