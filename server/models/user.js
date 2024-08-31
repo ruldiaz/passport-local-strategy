@@ -3,6 +3,7 @@ const validate = require('validate.js');
 const constraints = require('../lib/constraints');
 const bcrypt = require('bcrypt');
 const DB = require('../lib/db');
+const { cloneDeep } = require('lodash');
 
 let _ = class User{
    constructor(){
@@ -99,6 +100,21 @@ let _ = class User{
             this.security.passwordHash = await bcrypt.hash(password, 10); 
             return;
          }
+      } catch (error) {
+         throw new Error(error);
+      }
+   }
+
+   async parseUser(){
+      try {
+         let record = cloneDeep(this);
+
+         delete record.id;
+         delete record.created;
+         delete record.security;
+         delete record.banned;
+         
+         return record;
       } catch (error) {
          throw new Error(error);
       }

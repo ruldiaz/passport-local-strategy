@@ -58,7 +58,9 @@ router.post('/register', async (req, res)=>{
       console.log(user);
       
       user.save();
-      res.status(200).json(user);
+
+      let record = await user.parseUser();
+      res.status(200).json(record);
       
    } catch (error) {
       throw new Error(error);

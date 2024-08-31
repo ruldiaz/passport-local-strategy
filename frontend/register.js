@@ -27,7 +27,8 @@ document.getElementById('register-form').addEventListener('submit', async (event
          })
       });      
       if(response.ok){
-
+         const {email, name} = await response.json();
+         window.location.href = `index.html?email=${encodeURIComponent(email)}`;
       }else{
          const { error } = await response.json();
          throw new Error(error?.message[0]);
