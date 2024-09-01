@@ -12,7 +12,14 @@ const cors = require('cors');
 
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+const corsOptions = {
+   origin: 'http://localhost:9000',
+   credentials: true,
+   methods: ['GET', 'POST'],
+   allowHeaders: ['Content-Type', 'Authorization']
+}
+
+app.use(cors(corsOptions));
 
 app.use(cookieSession({
    name: 'app-auth',
