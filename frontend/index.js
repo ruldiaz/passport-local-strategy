@@ -30,13 +30,20 @@ document.getElementById('login-button').addEventListener('click', async (event)=
             username: email,
             password
          }),
-         
+         credentials: 'include'
       });
-      if(response.ok){
-         const {msg, redirecTo} = await response.json();
+
+      const {msg, redirectTo} = await response.json();
+
+      if(response.ok){   
+         sessionStorage.setItem('isAuthenticated', true);
+         
+         window.location.href = `${redirectTo}.html`;
+      }else{
+         errMsgDiv.innerHTML = `Failed to login. ${msg ? msg : `Unknown error.`}`;
       }
       
-      debugger
+      
 
    } catch (error) {
       errMsgDiv.innerHTML = error?.message || 'Failed to login.';
