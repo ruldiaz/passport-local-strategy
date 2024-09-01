@@ -8,3 +8,15 @@ window.onload = ()=>{
       emailInput.value = email;
    }
 }
+
+document.getElementById('login-button').addEventListener('click', async (event)=>{
+   event.preventDefault();
+   const email = document.getElementById('email').value;
+   const password = document.getElementById('password');
+   const errMsgDiv = document.getElementById('error-message');
+
+   if(!email || !password){
+      errMsgDiv.innerHTML = 'Incomplete form. All fields required.';
+      return;
+   }
+})

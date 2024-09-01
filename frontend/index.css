@@ -46,7 +46,7 @@ h2{
    font-size: 13px;
 }
 
-.form-button{
+#login-button{
    background-color: rgba(84,146,222);
    color: white;
    width: 150px;
